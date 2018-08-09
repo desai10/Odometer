@@ -4,6 +4,22 @@ import java.util.List;
 public class SpecialList {
 
     private List<Integer> seq;
+    private int size;
+
+    public SpecialList(int size) {
+        this.size = size;
+        seq = new ArrayList<>();
+
+        int currentNumber = getSmallestNumber(size);
+
+        for(int i=currentNumber;i<=getLargestNumber(size);i++) {
+            if(isValid(toDigits(i))) {
+                seq.add(i);
+            }
+        }
+
+        System.out.println(seq);
+    }
 
     private List<Integer> toDigits(int n) {
         List<Integer> digits = new ArrayList<>();
@@ -22,7 +38,7 @@ public class SpecialList {
         return number;
     }
 
-    private int getSmallestNumber(int size) {
+    public int getSmallestNumber(int size) {
         int smallestNumber = 0;
         for(int i=1;i<=size;i++) {
             smallestNumber = (smallestNumber * 10) + i;
@@ -47,33 +63,18 @@ public class SpecialList {
         return true;
     }
 
-    public SpecialList(int size) {
-        int currentNumber = getSmallestNumber(size);
-        seq = new ArrayList<>();
-        for(int i=currentNumber;i<=getLargestNumber(size);i++) {
-            if(isValid(toDigits(i))) {
-                seq.add(i);
-            }
-        }
-        System.out.println(seq);
-//        seq.add(currentNumber);
-
+    public int getNext(int currentValue){
+        return getNextNth(currentValue,1);
     }
 
-    public int getNextVal(int currVal){
-        return getNextNth(currVal,1);
+    public int getPrevious(int currentValue){
+        return getPreviousNth(currentValue,1);
     }
 
-    public int getPrevVal(int currVal){
-        return getPrevNth(currVal,1);
-    }
-
-    public int getDiff(int val1,int val2){
-        int min = Math.min(val1,val2);
-        int max = Math.max(val1,val2);
+    public int getDifference(int startingValue, int endingValue){
         int count=0;
-        while(min!=max){
-            min = getNextVal(min);
+        while(startingValue != endingValue){
+            startingValue = getNext(startingValue);
             count++;
         }
         return count;
@@ -84,7 +85,7 @@ public class SpecialList {
         return seq.get((index +n)%seq.size());
     }
 
-    public int getPrevNth(int currVal,int n){
+    public int getPreviousNth(int currVal, int n){
         int index = seq.indexOf(currVal);
         return seq.get((index-n + seq.size())%seq.size());
     }
