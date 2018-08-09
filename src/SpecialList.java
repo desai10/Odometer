@@ -65,7 +65,7 @@ public class SpecialList {
     }
 
     public int getPrevVal(int currVal){
-        return getPrevNth(currVal,-1);
+        return getPrevNth(currVal,1);
     }
 
     public int getDiff(int val1,int val2){
@@ -86,7 +86,7 @@ public class SpecialList {
 
     public int getPrevNth(int currVal,int n){
         int index = seq.indexOf(currVal);
-        return seq.get((index-n)%seq.size());
+        return seq.get((index-n + seq.size())%seq.size());
     }
 
 }
